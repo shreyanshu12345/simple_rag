@@ -34,7 +34,7 @@ class RAGPipeline:
 
         if not api_key:
             answer = (
-                "⚠️ **Auto Router API Key Missing**\n\n"
+                " **Auto Router API Key Missing**\n\n"
                 "Please set `AUTOROUTER_API_KEY` in your `Backend/.env` file to enable AI answer generation.\n\n"
                 "**Retrieved Context Chunks (Current Session):**\n" +
                 "\n".join([f"- **{c['doc_name']}** (Chunk #{c['chunk_id']}): \"{c['text'][:150]}...\"" for c in chunks[:3]])
