@@ -4,7 +4,7 @@ import DocumentUploader from './components/DocumentUploader';
 import DocumentList from './components/DocumentList';
 import ChatWorkspace from './components/ChatWorkspace';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function getOrCreateSessionId() {
   let id = sessionStorage.getItem('rag_session_id');
