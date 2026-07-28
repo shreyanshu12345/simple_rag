@@ -24,7 +24,7 @@ class spanTracing():
        # self.__cost["k"] = k
 
     def set_metadata(self, key, value):
-        self.__cost[key] = value
+        self.__cost[key.lower()] = value
 
     def __exit__(self, *args):
         self.__cost["end_time"] = time.time()
