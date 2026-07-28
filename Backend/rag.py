@@ -5,6 +5,9 @@ from dotenv import load_dotenv
 from embedder import embedder
 from db import db_manager
 from span import spanTracing
+import uuid
+
+
 
 load_dotenv()
 
@@ -14,7 +17,8 @@ class RAGPipeline:
 
     def answer_query(self, query: str, session_id: Optional[str] = None, top_k: int = 4) -> Dict[str, Any]:
         # ── Child span 1: top-k retrieval ────────────────────────────────────
-        with spanTracing("retrieval") as retrieval_span:
+        req_id = str(uuid.uuid4())
+        with spanTracing("retrieval", req_id) as retrieval_span:
             query_vec = embedder.embed_query(query)
             chunks = db_manager.search_similar_chunks(query_vec, session_id=session_id, top_k=top_k)
             retrieval_span.set_metadata("k", len(chunks))
@@ -37,7 +41,7 @@ class RAGPipeline:
         model = os.getenv("AUTOROUTER_MODEL", "auto").strip()
 
         # ── Child span 2: LLM call ────────────────────────────────────────────
-        with spanTracing("llm_call") as llm_span:
+        with spanTracing("llm_call", req_id) as llm_span:
             if not api_key:
                 answer = (
                     " **Auto Router API Key Missing**\n\n"
