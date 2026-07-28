@@ -21,7 +21,7 @@ class spanTracing():
         for i in self.__cost:
             if(self.__cost[i] is not None):
                 print(i, " : ", self.__cost[i])
-        if(self.req_id in all_logs):
+        if(self.req_id in spanTracing.all_logs):
            spanTracing.all_logs[self.req_id].append(self.__cost.copy())
         else:
            spanTracing.all_logs[self.req_id] = [self.__cost.copy()]
