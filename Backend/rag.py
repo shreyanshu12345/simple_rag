@@ -4,7 +4,7 @@ from typing import List, Dict, Any, Optional
 from dotenv import load_dotenv
 from embedder import embedder
 from db import db_manager
-from span import spanTracing
+from span import spanTracing, calculate
 import uuid
 
 
@@ -98,6 +98,9 @@ class RAGPipeline:
             }
             for c in chunks
         ]
+
+        # Both spans are complete — calculate once over the full request logs
+        calculate(spanTracing.all_logs)
 
         return {
             "answer": answer,

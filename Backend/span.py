@@ -1,20 +1,28 @@
 import time
 
 def calculate(logs):
-    llm_calc = {"total_token": 0, "total_wait_time": 0}
-    retrival = {"total_wait_time": 0}
+    llm_tokens, llm_wait_times, retrieval_wait_times = [], [], []
 
     for req_id in logs:
         for evals in logs[req_id]:
-            if(evals["name"] == "retrieval"):
-                retrival["total_wait_time"] += evals["duration"]
+            if evals["name"] == "retrieval":
+                retrieval_wait_times.append(evals["duration"])
             else:
-                llm_calc["total_token"] += evals.get("tokens", 0)
-                llm_calc["total_wait_time"] += evals["duration"]
+                llm_wait_times.append(evals["duration"])
+                if "tokens" in evals:
+                    llm_tokens.append(evals["tokens"])
+
+    llm_avg = {
+        "avg_tokens": sum(llm_tokens) / len(llm_tokens) if llm_tokens else 0,
+        "avg_wait_time": sum(llm_wait_times) / len(llm_wait_times) if llm_wait_times else 0,
+    }
+    retrieval_avg = {
+        "avg_wait_time": sum(retrieval_wait_times) / len(retrieval_wait_times) if retrieval_wait_times else 0,
+    }
 
     print()
-    print("llm_calc : ", llm_calc)
-    print("retrival : ", retrival)
+    print("llm_avg     : ", llm_avg)
+    print("retrival_avg: ", retrieval_avg)
     print()
 
 
@@ -34,12 +42,12 @@ class spanTracing():
         return self
 
     def log(self):
-        # print("****** logging ********")
-        # print("******* ", self.name, " ********")
+        print("****** logging ********")
+        print("******* ", self.name, " ********")
 
-        # for i in self.__cost:
-        #     if(self.__cost[i] is not None):
-        #         print(i, " : ", self.__cost[i])
+        for i in self.__cost:
+            if(self.__cost[i] is not None):
+                print(i, " : ", self.__cost[i])
         if(self.req_id in spanTracing.all_logs):
            spanTracing.all_logs[self.req_id].append(self.__cost.copy())
         else:
@@ -57,7 +65,7 @@ class spanTracing():
         self.__cost["duration"] = self.__cost["end_time"] - self.__cost["start_time"]
         self.__cost["name"] = self.name
         self.log()
-        calculate(spanTracing.all_logs)
+        # calculate(spanTracing.all_logs)
         pass
 
 
