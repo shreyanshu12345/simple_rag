@@ -20,13 +20,13 @@ class spanTracing():
         for i in self.__cost:
             if(self.__cost[i] is not None):
                 print(i, " : ", self.__cost[i])
-        spanTracing.all_logs.append(self.__cost)
+        spanTracing.all_logs.append(self.__cost.copy())
 
     #def set_k(self, k):
        # self.__cost["k"] = k
 
     def set_metadata(self, key, value):
-        self.__cost[key.lower()] = value
+        self.__cost[key] = value
 
     def __exit__(self, *args):
         self.__cost["end_time"] = time.time()
