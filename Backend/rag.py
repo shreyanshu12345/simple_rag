@@ -87,7 +87,7 @@ class RAGPipeline:
                     usage = res_data.get("usage", {})
                     total_tokens = usage.get("total_tokens")
                     if total_tokens is not None:
-                        llm_span.set_metadata("token", total_tokens)
+                        llm_span.set_metadata("tokens", total_tokens)
 
         sources = [
             {
