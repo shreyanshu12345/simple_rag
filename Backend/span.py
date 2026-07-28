@@ -2,7 +2,7 @@ import time
 
 class spanTracing():
     def __init__(self, name):
-        self.__cost = {"start_time": None, "end_time": None, "duration": None, "tokens": None}
+        self.__cost = {"start_time": None, "end_time": None, "duration": None}
         self.name = name
 
     #def set_token(self, tokens):
