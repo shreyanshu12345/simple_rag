@@ -18,7 +18,7 @@ class spanTracing():
         print("******* ", self.name, " ********")
 
         for i in self.__cost:
-            if(self.__cost[i]):
+            if(self.__cost[i] is not None):
                 print(i, " : ", self.__cost[i])
         spanTracing.all_logs.append(self.__cost)
 
