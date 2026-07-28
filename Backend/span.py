@@ -22,9 +22,9 @@ class spanTracing():
             if(self.__cost[i] is not None):
                 print(i, " : ", self.__cost[i])
         if(self.req_id in all_logs):
-           all_logs[self.req_id].append(self.__cost)
+           spanTracing.all_logs[self.req_id].append(self.__cost.copy())
         else:
-           all_logs[self.req_id] = [self.__cost]
+           spanTracing.all_logs[self.req_id] = [self.__cost.copy()]
 
     #def set_k(self, k):
        # self.__cost["k"] = k
