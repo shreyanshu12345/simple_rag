@@ -17,7 +17,7 @@ class RAGPipeline:
         with spanTracing("retrieval") as retrieval_span:
             query_vec = embedder.embed_query(query)
             chunks = db_manager.search_similar_chunks(query_vec, session_id=session_id, top_k=top_k)
-            retrieval_span.set_k(len(chunks))
+            retrieval_span.set_metadata("k", len(chunks))
 
         if not chunks:
             return {
@@ -83,7 +83,7 @@ class RAGPipeline:
                     usage = res_data.get("usage", {})
                     total_tokens = usage.get("total_tokens")
                     if total_tokens is not None:
-                        llm_span.set_token(total_tokens)
+                        llm_span.set_metadata("token", total_tokens)
 
         sources = [
             {
