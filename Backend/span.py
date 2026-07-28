@@ -1,10 +1,11 @@
 import time
 
 class spanTracing():
-    all_logs = []
-    def __init__(self, name):
+    all_logs = {}
+    def __init__(self, name, id):
         self.__cost = {"start_time": None, "end_time": None, "duration": None}
         self.name = name
+        self.req_id = id
 
     #def set_token(self, tokens):
         #self.__cost["tokens"] = tokens
@@ -20,7 +21,10 @@ class spanTracing():
         for i in self.__cost:
             if(self.__cost[i] is not None):
                 print(i, " : ", self.__cost[i])
-        spanTracing.all_logs.append(self.__cost.copy())
+        if(self.req_id in all_logs):
+           all_logs[self.req_id].append(self.__cost)
+        else:
+           all_logs[self.req_id] = [self.__cost]
 
     #def set_k(self, k):
        # self.__cost["k"] = k
