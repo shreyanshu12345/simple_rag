@@ -5,8 +5,8 @@ class spanTracing():
         self.__cost = {"start_time": None, "end_time": None, "duration": None, "tokens": None}
         self.name = name
 
-    def set_token(self, tokens):
-        self.__cost["tokens"] = tokens
+    #def set_token(self, tokens):
+        #self.__cost["tokens"] = tokens
 
     def __enter__(self):
         self.__cost["start_time"] = time.time()
@@ -20,8 +20,11 @@ class spanTracing():
             if(self.__cost[i]):
                 print(i, " : ", self.__cost[i])
 
-    def set_k(self, k):
-        self.__cost["k"] = k
+    #def set_k(self, k):
+       # self.__cost["k"] = k
+
+    def set_metadata(self, key, value):
+        self.__cost[key] = value
 
     def __exit__(self, *args):
         self.__cost["end_time"] = time.time()
